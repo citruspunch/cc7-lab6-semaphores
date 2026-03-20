@@ -1,12 +1,9 @@
-#include <pthread.h>
+#include "main.h"
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <semaphore.h>
-#include <time.h>
+#include <unistd.h>
 
-
-#define NUM_THREADS 10
-#define N 5 // Number of parking spaces
 // TODO: Use command line arguments to set N
 
 pthread_t threads_ids[NUM_THREADS];
@@ -56,12 +53,6 @@ void *access_parking_lot(void *arg)
     return NULL;
 }
 
-// Function to simulate a car parking
-void *car_parking(void *arg);
-
-// Function to simulate a car leaving the parking lot and freeing up a space
-void *car_departure(void *arg);
-
 // Shared log
 // Format:
 // [Fri Mar 21 13:38:46 2025] Car 0: Arrived at parking lot
@@ -76,8 +67,6 @@ void log_event(const char *event, int thread_id, time_t event_time) {
 
 int main()
 {
-    time_t current_time = time(NULL);
-
     // Initialize the semaphore with N parking spaces
     sem_init(&parking_semaphore, 0, N);
 
