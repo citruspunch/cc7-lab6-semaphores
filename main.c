@@ -12,13 +12,23 @@ pthread_mutex_t mutex;
 sem_t parking_semaphore; // Initialize the semaphore. Will be set to N in main
 
 int total_cars = 0; // Total number of cars that have parked.
-int total_wait_time = 0; // Total wait time for all cars.
+double total_wait_time = 0.0; // Total wait time for all cars.
+
+static double elapsed_seconds(const struct timespec *start, const struct timespec *end)
+{
+    return (double)(end->tv_sec - start->tv_sec) +
+           (double)(end->tv_nsec - start->tv_nsec) / 1000000000.0;
+}
 
 // Function to simulate a car trying to access the parking lot
 void *access_parking_lot(void *arg)
 {
+    struct timespec arrival_ts;
+    struct timespec parking_ts;
+
     // Get the current time when the car arrives
     time_t arrival_time = time(NULL);
+    clock_gettime(CLOCK_MONOTONIC, &arrival_ts);
 
     int thread_id = (int)(long)arg;
     // Simulate accessing the parking lot
@@ -28,7 +38,8 @@ void *access_parking_lot(void *arg)
     sem_wait(&parking_semaphore);
     // Get the current time when the car successfully parks
     time_t parking_time = time(NULL);
-    double wait_time = difftime(parking_time, arrival_time);
+    clock_gettime(CLOCK_MONOTONIC, &parking_ts);
+    double wait_time = elapsed_seconds(&arrival_ts, &parking_ts);
     // Update total cars and total wait time
     pthread_mutex_lock(&mutex);
     total_cars++;
@@ -51,6 +62,7 @@ void *access_parking_lot(void *arg)
     sem_post(&parking_semaphore);
 
     return NULL;
+
 }
 
 // Shared log
@@ -67,6 +79,8 @@ void log_event(const char *event, int thread_id, time_t event_time) {
 
 int main()
 {
+    srand((unsigned int)time(NULL) ^ (unsigned int)getpid());
+
     // Initialize the semaphore with N parking spaces
     sem_init(&parking_semaphore, 0, N);
 
@@ -94,7 +108,14 @@ int main()
 
     printf("All threads have finished accessing the parking lot.\n");
     printf("Total cars parked: %d\n", total_cars);
-    printf("Average wait time: %d seconds\n", total_wait_time / total_cars);
+    if (total_cars > 0)
+    {
+        printf("Average wait time: %.3f seconds\n", total_wait_time / total_cars);
+    }
+    else
+    {
+        printf("Average wait time: 0.000 seconds\n");
+    }
 
     return 0;
 }
