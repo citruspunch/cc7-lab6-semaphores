@@ -38,8 +38,8 @@ Each car is modeled as a POSIX thread (`pthread_t`) that executes concurrently:
 
 This is a variation of the bounded buffer (producer-consumer) problem:
 
-- **Producers**: Cars arriving and trying to park (consume a parking space)
-- **Consumers**: Cars leaving and freeing up spaces (produce an available space)
+- **Producers**: Cars leaving and freeing up spaces (produce an available space)
+- **Consumers**: Cars arriving and trying to park (consume a parking space)
 - The semaphore acts as the counter for available slots
 
 ### 5. Race Conditions and Critical Sections
