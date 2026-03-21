@@ -5,7 +5,6 @@
 #include <string.h>
 #include <unistd.h>
 
-// TODO: Use command line arguments to set N
 
 pthread_t threads_ids[NUM_THREADS];
 pthread_mutex_t mutex;

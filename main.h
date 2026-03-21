@@ -5,8 +5,13 @@
 #include <semaphore.h>
 #include <time.h>
 
+#ifndef NUM_THREADS
 #define NUM_THREADS 10
+#endif
+
+#ifndef N
 #define N 5 // Number of parking spaces
+#endif
 
 extern pthread_t threads_ids[NUM_THREADS];
 extern pthread_mutex_t mutex;

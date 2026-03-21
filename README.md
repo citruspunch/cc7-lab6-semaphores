@@ -168,6 +168,20 @@ You can modify these constants in `main.h`:
 - `NUM_THREADS`: Number of cars (threads) to simulate
 - `N`: Number of parking spaces (semaphore initial value)
 
+You can also compile with custom values from the command line using the build script:
+
+```bash
+./build.sh <num_cars> <num_parking_spaces>
+./build.sh <num_cars> <num_parking_spaces> --run
+```
+
+Examples:
+
+```bash
+./build.sh 10 5
+./build.sh 20 8 --run
+```
+
 ## Files
 
 - `main.c`: Main program and thread functions
