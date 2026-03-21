@@ -1,10 +1,10 @@
+
 #include "main.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
 
 pthread_t threads_ids[NUM_THREADS];
 pthread_mutex_t mutex;
@@ -67,15 +67,15 @@ void display_dashboard() {
   }
   printf("\n");
   for (int i = 0; i < N; i++) {
-    printf("  [%-3d] ", i);
+    printf("   [%d]  ", i);
   }
   printf("\n\n");
 
   // Display car statuses with consistent column widths
   printf("CAR STATUS:\n");
-  printf("+-------+-----------+-------------+------------------+\n");
-  printf("| Car   | Status    | Wait Time   | Arrival Time     |\n");
-  printf("+-------+-----------+-------------+------------------+\n");
+  printf("+-------+-----------+-------------+---------------------+\n");
+  printf("| Car   | Status    | Wait Time   | Arrival Time        |\n");
+  printf("+-------+-----------+-------------+---------------------+\n");
 
   int actual_waiting = 0;
   for (int i = 0; i < NUM_THREADS; i++) {
@@ -105,7 +105,7 @@ void display_dashboard() {
       printf("| %-5d | %-9s | %-11s | %-16s |\n", i, "PENDING", "--", "--");
     }
   }
-  printf("+-------+-----------+-------------+------------------+\n\n");
+  printf("+-------+-----------+-------------+---------------------+\n\n");
 
   // Display statistics
   printf("STATISTICS:\n");
